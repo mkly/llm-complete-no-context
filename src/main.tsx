@@ -3,12 +3,6 @@ import ReactDOM from "react-dom/client";
 import { v4 as uuidv4 } from "uuid";
 import "./index.css";
 import App from "./App";
-import { UuidProvider } from "./context/Uuid";
-import { VisibilityProvider } from "./context/Visibility";
-import { TextareaProvider } from "./context/Textarea";
-import { OpenAIKeyProvider } from "./context/OpenAIKey";
-import { SuggestionsProvider } from "./context/Suggestions";
-import { ShowSuggestionsProvider } from "./context/ShowSuggestions";
 
 const textAreas = [...document.querySelectorAll("textarea")];
 chrome.storage.sync.get(
@@ -20,19 +14,12 @@ chrome.storage.sync.get(
       textarea.parentNode?.insertBefore(container, textarea);
       ReactDOM.createRoot(container).render(
         <StrictMode>
-          <UuidProvider uuid={uuid}>
-            <OpenAIKeyProvider openAIKey={openAIKey}>
-              <TextareaProvider textareaEl={textarea}>
-                <VisibilityProvider initialVisible={false}>
-                  <ShowSuggestionsProvider>
-                    <SuggestionsProvider>
-                      <App />
-                    </SuggestionsProvider>
-                  </ShowSuggestionsProvider>
-                </VisibilityProvider>
-              </TextareaProvider>
-            </OpenAIKeyProvider>
-          </UuidProvider>
+          <App
+            uuid={uuid}
+            openAIKey={openAIKey}
+            textareaEl={textarea}
+            pageContent={document.body.innerHTML}
+          />
         </StrictMode>,
       );
     });

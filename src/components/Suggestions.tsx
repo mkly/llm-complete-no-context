@@ -1,18 +1,17 @@
+import { ReactNode } from "react";
 import { useSuggestions } from "@/context/Suggestions";
 import Suggestion from "@/components/Suggestion";
 
-export default function Suggestions() {
+interface SuggestionsProps {
+  children: ReactNode;
+}
+
+export default function Suggestions({ children }: SuggestionsProps) {
   const [suggestions] = useSuggestions();
 
   return (
     <ul>
-      {suggestions.map((suggestion, idx) => (
-        <Suggestion
-          key={idx}
-          index={idx + 1}
-          suggestion={suggestion}
-        />
-      ))}
+      {children}
     </ul>
   );
 }
